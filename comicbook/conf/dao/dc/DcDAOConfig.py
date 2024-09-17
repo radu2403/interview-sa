@@ -3,23 +3,25 @@
 from dataclasses import dataclass
 from pyspark.sql.types import StructField, StructType, StringType, LongType, DoubleType, BooleanType, TimestampType, IntegerType
 
+from comicbook.common.conventions.dataset.dc.DcConst import DcConst as DC
+
 
 @dataclass(frozen=True)
 class DcDAOConfig:
     path: str = None
     schema: StructType = StructType([
-        StructField("page_id", LongType(), True),
-        StructField("name", StringType(), True),
-        StructField("urlslug", StringType(), True),
-        StructField("ID", StringType(), True),
-        StructField("EYE", StringType(), True),
-        StructField("HAIR", StringType(), True),
-        StructField("SEX", StringType(), True),
-        StructField("GSM", StringType(), True),
-        StructField("ALIVE", StringType(), True),
-        StructField("APPEARANCES", IntegerType(), True),
-        StructField("FIRST APPEARANCE", StringType(), True),
-        StructField("YEAR", IntegerType(), True),
+        StructField(DC.page_id, LongType(), True),
+        StructField(DC.name, StringType(), True),
+        StructField(DC.urls_lug, StringType(), True),
+        StructField(DC.id, StringType(), True),
+        StructField(DC.eye, StringType(), True),
+        StructField(DC.hair, StringType(), True),
+        StructField(DC.sex, StringType(), True),
+        StructField(DC.gsm, StringType(), True),
+        StructField(DC.alive, StringType(), True),
+        StructField(DC.appearances, IntegerType(), True),
+        StructField(DC.first_appearance, StringType(), True),
+        StructField(DC.year, IntegerType(), True),
     ])
 
     def __post_init__(self):
