@@ -1,22 +1,24 @@
 from dataclasses import dataclass
 from pyspark.sql.types import StructField, StructType, StringType, LongType, DoubleType, BooleanType, TimestampType
 
+from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
+
 
 @dataclass(frozen=True)
 class StatsDAOConfig:
     path: str = None
     schema: StructType = StructType([
-        StructField("ID", LongType(), True),
-        StructField("Name", StringType(), True),
-        StructField("Alignment", StringType(), True),
-        StructField("Gender", StringType(), True),
-        StructField("EyeColor", StringType(), True),
-        StructField("Race", StringType(), True),
-        StructField("HairColor", StringType(), True),
-        StructField("Publisher", StringType(), True),
-        StructField("SkinColor", StringType(), True),
-        StructField("Height", DoubleType(), True),
-        StructField("Weight", DoubleType(), True)
+        StructField(SC.id, LongType(), True),
+        StructField(SC.name, StringType(), True),
+        StructField(SC.alignment, StringType(), True),
+        StructField(SC.gender, StringType(), True),
+        StructField(SC.eye_color, StringType(), True),
+        StructField(SC.race, StringType(), True),
+        StructField(SC.hair_color, StringType(), True),
+        StructField(SC.publisher, StringType(), True),
+        StructField(SC.skin_color, StringType(), True),
+        StructField(SC.height, DoubleType(), True),
+        StructField(SC.weight, DoubleType(), True)
     ])
 
     def __post_init__(self):
