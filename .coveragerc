@@ -1,0 +1,9 @@
+[run]
+branch = True
+omit =
+       *test*
+       *version*
+       *__init__*
+
+[html]
+directory = htmlcov
