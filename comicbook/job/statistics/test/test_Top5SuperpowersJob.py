@@ -15,7 +15,7 @@ from comicbook.dao.heroabilities.HeroAbilityDAO import HeroAbilityDAO
 from comicbook.dao.marvel.MarvelDAO import MarvelDAO
 from comicbook.dao.stats.StatsDAO import StatsDAO
 from comicbook.job.statistics.Bottom10HeroesByAppearancePerPublisherJob import Bottom10HeroesByAppearancePerPublisherJob
-from comicbook.job.statistics.Top10SuperpowersJob import Top10SuperpowersJob
+from comicbook.job.statistics.Top5SuperpowersJob import Top5SuperpowersJob
 
 
 @pytest.fixture(scope="module")
@@ -106,7 +106,7 @@ def hero_ability_dao(ha_config: HeroAbilityDAOConfig) -> HeroAbilityDAO:
 @pytest.mark.job
 def test_that_the_job_is_created_with_success_with_parameters(stats_dao, hero_ability_dao):
     # act
-    Top10SuperpowersJob(
+    Top5SuperpowersJob(
         _stats_dao=stats_dao,
         _heroes_ability_dao=hero_ability_dao
     )
@@ -115,14 +115,13 @@ def test_that_the_job_is_created_with_success_with_parameters(stats_dao, hero_ab
 @pytest.mark.job
 def test_that_the_job_is_created_with_success_without_parameters():
     # act
-    Top10SuperpowersJob()
+    Top5SuperpowersJob()
 
 
 @pytest.mark.job
 def test_that_the_job_is_executed_and_return_10_values(stats_dao, hero_ability_dao):
     # assign
-    job = Top10SuperpowersJob(
-        _stats_dao=stats_dao,
+    job = Top5SuperpowersJob(
         _heroes_ability_dao=hero_ability_dao
     )
 
@@ -131,14 +130,13 @@ def test_that_the_job_is_executed_and_return_10_values(stats_dao, hero_ability_d
     df.show(10000, truncate=False)
 
     # assign
-    assert df.count() == 10
+    assert df.count() == 5
 
 
 @pytest.mark.job
 def test_that_the_job_return_in_descending_order(stats_dao, hero_ability_dao):
     # assign
-    job = Top10SuperpowersJob(
-        _stats_dao=stats_dao,
+    job = Top5SuperpowersJob(
         _heroes_ability_dao=hero_ability_dao
     )
 
