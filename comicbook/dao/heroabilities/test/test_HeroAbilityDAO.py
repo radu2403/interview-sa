@@ -43,6 +43,8 @@ def test_stats_create_load_df(config: HeroAbilityDAOConfig):
     assert df is not None
     assert df.count() > 0
 
+
+@pytest.mark.dao
 def test_df_result_superpowers_col_is_array(config: HeroAbilityDAOConfig):
     # assign
     dao = HeroAbilityDAO(_config=config)
