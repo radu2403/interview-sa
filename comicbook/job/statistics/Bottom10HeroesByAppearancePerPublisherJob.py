@@ -11,7 +11,7 @@ from comicbook.job.statistics.StatisticsJobBase import StatisticsJobBase
 
 
 @dataclass(frozen=True)
-class Bottom10VillainsByAppearancePerPublisherJob(StatisticsJobBase):
+class Bottom10HeroesByAppearancePerPublisherJob(StatisticsJobBase):
 
     def transformation(self, df_marvel: DataFrame, df_dc: DataFrame) -> Callable[[DataFrame], DataFrame]:
         super_tr = super().transformation(df_marvel, df_dc)
@@ -33,27 +33,27 @@ class Bottom10VillainsByAppearancePerPublisherJob(StatisticsJobBase):
         def _(df_stats: DataFrame) -> DataFrame:
             return (
                 df_stats.transform(StatisticsJobBase.stats_transformation())
-                        .where(col(SC.alignment) == AlignmentTypesConst.bad)
+                        .where(col(SC.alignment) == AlignmentTypesConst.good)
             )
 
         return _
 
     @classmethod
     def get_instance(cls):
-        return Bottom10VillainsByAppearancePerPublisherJob()
+        return Bottom10HeroesByAppearancePerPublisherJob()
 
     @staticmethod
     def auto_run():
-        Bottom10VillainsByAppearancePerPublisherJob.get_instance().execute()
+        Bottom10HeroesByAppearancePerPublisherJob.get_instance().execute()
         print("[CLASS] - FINISHED!")
 
 
 def main():
     print(f"[MAIN] - Started main...")
-    Bottom10VillainsByAppearancePerPublisherJob.auto_run()
+    Bottom10HeroesByAppearancePerPublisherJob.auto_run()
 
 
 if __name__ == "__main__":
-    print("[MAIN] - Starting the Bottom10VillainsByAppearancePerPublisherJob...")
+    print("[MAIN] - Starting the Bottom10HeroesByAppearancePerPublisherJob...")
     main()
     print("[MAIN] - FINISHED!")
