@@ -93,6 +93,7 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
                     df_marvel.select(MC.name,
                                      MC.appearances)
                              .transform(this.clean_column_name_transformation(col_name=MC.name))
+                             .dropna()
                              .dropDuplicates()
             )
 
@@ -107,6 +108,7 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
                     df_dc.select(DC.name,
                                  DC.appearances)
                          .transform(this.clean_column_name_transformation(DC.name))
+                         .dropna()
                          .dropDuplicates()
 
             )

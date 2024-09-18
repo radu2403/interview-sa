@@ -227,3 +227,19 @@ def test_that_the_job_transformation_not_duplicates(stats_dao, dc_dao, marvel_da
 
     # assign
     assert df.count() == df.dropDuplicates().count()
+
+
+@pytest.mark.job
+def test_that_the_job_transformation_no_nulls(stats_dao, dc_dao, marvel_dao):
+    # assign
+    job = Top10VillainsByAppearancePerPublisherJob(
+        _stats_dao=stats_dao,
+        _dc_dao=dc_dao,
+        _marvel_dao=marvel_dao
+    )
+
+    # act
+    df = job.execute()
+
+    # assign
+    assert df.count() == df.dropna().count()
