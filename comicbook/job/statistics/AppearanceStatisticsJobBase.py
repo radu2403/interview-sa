@@ -17,7 +17,7 @@ from comicbook.transformations.CleanHeroNamesJobTransformation import CleanHeroN
 
 
 @dataclass(frozen=True)
-class StatisticsJobBase(CleanHeroNamesJobTransformation):
+class AppearanceStatisticsJobBase(CleanHeroNamesJobTransformation):
     _stats_dao: StatsDAO = field(repr=False, default=None)
     _marvel_dao: MarvelDAO = field(repr=False, default=None)
     _dc_dao: DcDAO = field(repr=False, default=None)
@@ -70,7 +70,7 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
     @staticmethod
     def stats_transformation() -> Callable[[DataFrame], DataFrame]:
         def _(df_stats: DataFrame) -> DataFrame:
-            this = StatisticsJobBase
+            this = AppearanceStatisticsJobBase
 
             return (
                 df_stats.select(SC.name,
@@ -87,7 +87,7 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
     @staticmethod
     def marvel_transformation() -> Callable[[DataFrame], DataFrame]:
         def _(df_marvel: DataFrame) -> DataFrame:
-            this = StatisticsJobBase
+            this = AppearanceStatisticsJobBase
 
             return (
                     df_marvel.select(MC.name,
@@ -102,7 +102,7 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
     @staticmethod
     def dc_transformation() -> Callable[[DataFrame], DataFrame]:
         def _(df_dc: DataFrame) -> DataFrame:
-            this = StatisticsJobBase
+            this = AppearanceStatisticsJobBase
 
             return (
                     df_dc.select(DC.name,

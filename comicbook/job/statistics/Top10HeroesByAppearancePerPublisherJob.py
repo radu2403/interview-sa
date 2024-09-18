@@ -7,11 +7,11 @@ from pyspark.sql.functions import col, row_number
 from comicbook.common.conventions.dataset.stats.AlignmentTypesConst import AlignmentTypesConst
 from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
 from comicbook.common.conventions.dataset.marvel.MarvelConst import MarvelConst as MC
-from comicbook.job.statistics.StatisticsJobBase import StatisticsJobBase
+from comicbook.job.statistics.AppearanceStatisticsJobBase import AppearanceStatisticsJobBase
 
 
 @dataclass(frozen=True)
-class Top10HeroesByAppearancePerPublisherJob(StatisticsJobBase):
+class Top10HeroesByAppearancePerPublisherJob(AppearanceStatisticsJobBase):
 
     def transformation(self, df_marvel: DataFrame, df_dc: DataFrame) -> Callable[[DataFrame], DataFrame]:
         super_tr = super().transformation(df_marvel, df_dc)
@@ -32,7 +32,7 @@ class Top10HeroesByAppearancePerPublisherJob(StatisticsJobBase):
     def stats_transformation() -> Callable[[DataFrame], DataFrame]:
         def _(df_stats: DataFrame) -> DataFrame:
             return (
-                df_stats.transform(StatisticsJobBase.stats_transformation())
+                df_stats.transform(AppearanceStatisticsJobBase.stats_transformation())
                         .where(col(SC.alignment) == AlignmentTypesConst.good)
             )
 
