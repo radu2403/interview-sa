@@ -2,10 +2,11 @@ from dataclasses import dataclass
 from pyspark.sql.types import StructField, StructType, StringType, LongType, DoubleType, BooleanType, TimestampType, IntegerType, ArrayType
 
 from comicbook.common.conventions.dataset.heroability.HeroAbilityConst import HeroAbilityConst as HC
+from comicbook.conf.dao.common.ReadDAOConfig import ReadDAOConfig
 
 
 @dataclass(frozen=True)
-class HeroAbilityDAOConfig:
+class HeroAbilityDAOConfig(ReadDAOConfig):
     path: str = None
     schema: StructType = StructType([
         StructField(HC.name, StringType(), True),

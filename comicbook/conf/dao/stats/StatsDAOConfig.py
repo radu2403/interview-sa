@@ -2,10 +2,11 @@ from dataclasses import dataclass
 from pyspark.sql.types import StructField, StructType, StringType, LongType, DoubleType, BooleanType, TimestampType
 
 from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
+from comicbook.conf.dao.common.ReadDAOConfig import ReadDAOConfig
 
 
 @dataclass(frozen=True)
-class StatsDAOConfig:
+class StatsDAOConfig(ReadDAOConfig):
     path: str = None
     schema: StructType = StructType([
         StructField(SC.id, LongType(), True),

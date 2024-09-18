@@ -5,21 +5,12 @@ from pyspark.sql import DataFrame
 from comicbook.conf.dao.marvel.MarvelDAOConfig import MarvelDAOConfig
 from comicbook.conf.dao.stats.StatsDAOConfig import StatsDAOConfig
 from comicbook.dao.common.DAOABCBase import DaoABC
+from comicbook.dao.common.read.ReadCsvDAOABC import ReadCsvDAOABC
 
 
 @dataclass(frozen=True)
-class MarvelDAO(DaoABC):
+class MarvelDAO(ReadCsvDAOABC, DaoABC):
     _config: MarvelDAOConfig = field(repr=False, default=None)
-
-    def load(self) -> DataFrame:
-        return (self._spark_service.spark.read
-                                    .format("csv")
-                                    .option("mode", "DROPMALFORMED")
-                                    .option("mergeSchema", "true")
-                                    .schema(self._config.schema)
-                                    .option("header", True)
-                                    .load(self._config.path)
-         )
 
     def write(self, df: DataFrame) -> DataFrame:
         raise NotImplementedError("write is not implemented for StatsDAO")
