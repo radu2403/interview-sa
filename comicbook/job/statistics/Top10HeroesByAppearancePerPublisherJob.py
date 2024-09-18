@@ -11,7 +11,7 @@ from comicbook.job.statistics.StatisticsJobBase import StatisticsJobBase
 
 
 @dataclass(frozen=True)
-class Top10VillainsByAppearancePerPublisherJob(StatisticsJobBase):
+class Top10HeroesByAppearancePerPublisherJob(StatisticsJobBase):
 
     def transformation(self, df_marvel: DataFrame, df_dc: DataFrame) -> Callable[[DataFrame], DataFrame]:
         super_tr = super().transformation(df_marvel, df_dc)
@@ -23,7 +23,7 @@ class Top10VillainsByAppearancePerPublisherJob(StatisticsJobBase):
                 df_stats.transform(super_tr)
                         .withColumn("row", row_number().over(w))
                         .where(col("row") <= 10)
-                        .orderBy(col(MC.appearances).desc(), col(SC.publisher))
+                        .orderBy(col(MC.appearances).desc())
             )
 
         return _
@@ -33,27 +33,27 @@ class Top10VillainsByAppearancePerPublisherJob(StatisticsJobBase):
         def _(df_stats: DataFrame) -> DataFrame:
             return (
                 df_stats.transform(StatisticsJobBase.stats_transformation())
-                        .where(col(SC.alignment) == AlignmentTypesConst.bad)
+                        .where(col(SC.alignment) == AlignmentTypesConst.good)
             )
 
         return _
 
     @classmethod
     def get_instance(cls):
-        return Top10VillainsByAppearancePerPublisherJob()
+        return Top10HeroesByAppearancePerPublisherJob()
 
     @staticmethod
     def auto_run():
-        Top10VillainsByAppearancePerPublisherJob.get_instance().execute()
+        Top10HeroesByAppearancePerPublisherJob.get_instance().execute()
         print("[CLASS] - FINISHED!")
 
 
 def main():
     print(f"[MAIN] - Started main...")
-    Top10VillainsByAppearancePerPublisherJob.auto_run()
+    Top10HeroesByAppearancePerPublisherJob.auto_run()
 
 
 if __name__ == "__main__":
-    print("[MAIN] - Starting the Top10VillainsByAppearancePerPublisherJob...")
+    print("[MAIN] - Starting the Top10HeroesByAppearancePerPublisherJob...")
     main()
     print("[MAIN] - FINISHED!")
