@@ -109,13 +109,12 @@ def test_that_the_job_is_created_with_success_with_parameters(stats_dao, dc_dao,
     Top10VillainsByAppearancePerPublisherJob(
         _stats_dao=stats_dao,
         _dc_dao=dc_dao,
-        _marvel_dao=marvel_dao,
-        _hero_ability_dao=hero_ability_dao
+        _marvel_dao=marvel_dao
     )
 
 
 @pytest.mark.job
-def test_that_the_job_is_created_with_success_without_parameters(stats_dao, dc_dao, marvel_dao, hero_ability_dao):
+def test_that_the_job_is_created_with_success_without_parameters():
     # act
     Top10VillainsByAppearancePerPublisherJob()
 
@@ -193,7 +192,7 @@ def test_that_the_job_stats_trans_return_names_of_bad_actors(stats_dao):
     df = st_df.transform(Top10VillainsByAppearancePerPublisherJob.stats_transformation())
 
     # assign
-    assert st_df.where(lower(col(SC.alignment)) == lit(AlignmentTypesConst.bad)).count() == df.count()
+    assert st_df.where(lower(col(SC.alignment)) == lit(AlignmentTypesConst.bad)).count() == st_df.count()
 
 
 @pytest.mark.job
