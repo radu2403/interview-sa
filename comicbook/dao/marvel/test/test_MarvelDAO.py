@@ -1,12 +1,9 @@
-from unittest import mock
-from unittest.mock import MagicMock
 import pytest
+from pyspark.sql import SparkSession
 
-from pyspark.sql import SparkSession, DataFrame
 from comicbook.common.mocks.test_utils import abs_path
 from comicbook.conf.dao.marvel.MarvelDAOConfig import MarvelDAOConfig
 from comicbook.dao.marvel.MarvelDAO import MarvelDAO
-from comicbook.dao.stats.StatsDAO import StatsDAO
 
 
 @pytest.fixture(scope="module")
