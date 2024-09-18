@@ -57,3 +57,4 @@ if __name__ == "__main__":
     print("[MAIN] - Starting the Top10VillainsByAppearancePerPublisherJob...")
     main()
     print("[MAIN] - FINISHED!")
+
