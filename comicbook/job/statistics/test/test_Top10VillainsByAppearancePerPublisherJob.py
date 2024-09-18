@@ -192,7 +192,7 @@ def test_that_the_job_stats_trans_return_names_of_bad_actors(stats_dao):
     df = st_df.transform(Top10VillainsByAppearancePerPublisherJob.stats_transformation())
 
     # assign
-    assert st_df.where(lower(col(SC.alignment)) == lit(AlignmentTypesConst.bad)).count() == st_df.count()
+    assert df.where(lower(col(SC.alignment)) == lit(AlignmentTypesConst.bad)).count() == df.count()
 
 
 @pytest.mark.job

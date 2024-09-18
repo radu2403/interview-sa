@@ -67,6 +67,7 @@ class Top10VillainsByAppearancePerPublisherJob(CleanHeroNamesJobTransformation):
                                      how="inner")
                                .orderBy(col(MC.appearances).desc())
                                .drop(SC.alignment)
+                               .limit(10)
             )
 
         return _
