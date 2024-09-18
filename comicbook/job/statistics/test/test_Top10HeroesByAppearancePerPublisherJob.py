@@ -14,7 +14,7 @@ from comicbook.dao.dc.DcDAO import DcDAO
 from comicbook.dao.heroabilities.HeroAbilityDAO import HeroAbilityDAO
 from comicbook.dao.marvel.MarvelDAO import MarvelDAO
 from comicbook.dao.stats.StatsDAO import StatsDAO
-from comicbook.job.statistics.Top10VillainsByAppearancePerPublisherJob import Top10VillainsByAppearancePerPublisherJob
+from comicbook.job.statistics.Top10HeroesByAppearancePerPublisherJob import Top10HeroesByAppearancePerPublisherJob
 
 
 @pytest.fixture(scope="module")
@@ -105,7 +105,7 @@ def hero_ability_dao(ha_config: HeroAbilityDAOConfig) -> HeroAbilityDAO:
 @pytest.mark.job
 def test_that_the_job_is_created_with_success_with_parameters(stats_dao, dc_dao, marvel_dao, hero_ability_dao):
     # act
-    Top10VillainsByAppearancePerPublisherJob(
+    Top10HeroesByAppearancePerPublisherJob(
         _stats_dao=stats_dao,
         _dc_dao=dc_dao,
         _marvel_dao=marvel_dao
@@ -115,13 +115,13 @@ def test_that_the_job_is_created_with_success_with_parameters(stats_dao, dc_dao,
 @pytest.mark.job
 def test_that_the_job_is_created_with_success_without_parameters():
     # act
-    Top10VillainsByAppearancePerPublisherJob()
+    Top10HeroesByAppearancePerPublisherJob()
 
 
 @pytest.mark.job
 def test_that_the_job_is_executed_and_return_10_values(stats_dao, dc_dao, marvel_dao):
     # assign
-    job = Top10VillainsByAppearancePerPublisherJob(
+    job = Top10HeroesByAppearancePerPublisherJob(
         _stats_dao=stats_dao,
         _dc_dao=dc_dao,
         _marvel_dao=marvel_dao
@@ -141,7 +141,7 @@ def test_that_the_job_mv_trans_return_name_and_appearance(marvel_dao):
     mv_df = marvel_dao.load()
 
     # act
-    df = mv_df.transform(Top10VillainsByAppearancePerPublisherJob.marvel_transformation())
+    df = mv_df.transform(Top10HeroesByAppearancePerPublisherJob.marvel_transformation())
 
     # assign
     assert len(df.columns) == 2
@@ -153,7 +153,7 @@ def test_that_the_job_mv_trans_return_name_and_appearance(dc_dao):
     dc_df = dc_dao.load()
 
     # act
-    df = dc_df.transform(Top10VillainsByAppearancePerPublisherJob.dc_transformation())
+    df = dc_df.transform(Top10HeroesByAppearancePerPublisherJob.dc_transformation())
 
     # assign
     assert len(df.columns) == 2
@@ -165,7 +165,7 @@ def test_that_the_job_mv_trans_return_name_without_parentheses(dc_dao):
     dc_df = dc_dao.load()
 
     # act
-    df = dc_df.transform(Top10VillainsByAppearancePerPublisherJob.dc_transformation())
+    df = dc_df.transform(Top10HeroesByAppearancePerPublisherJob.dc_transformation())
 
     # assign
     assert df.where(col(MC.name).contains("(")).count() == 0
@@ -177,7 +177,7 @@ def test_that_the_job_stats_trans_return_name_without_parentheses(stats_dao):
     st_df = stats_dao.load()
 
     # act
-    df = st_df.transform(Top10VillainsByAppearancePerPublisherJob.stats_transformation())
+    df = st_df.transform(Top10HeroesByAppearancePerPublisherJob.stats_transformation())
 
     # assign
     assert df.where(col(SC.name).contains("(")).count() == 0
@@ -189,7 +189,7 @@ def test_that_the_job_stats_trans_return_names_of_bad_actors(stats_dao):
     st_df = stats_dao.load()
 
     # act
-    df = st_df.transform(Top10VillainsByAppearancePerPublisherJob.stats_transformation())
+    df = st_df.transform(Top10HeroesByAppearancePerPublisherJob.stats_transformation())
 
     # assign
     assert df.where(lower(col(SC.alignment)) == lit(AlignmentTypesConst.bad)).count() == df.count()
@@ -198,7 +198,7 @@ def test_that_the_job_stats_trans_return_names_of_bad_actors(stats_dao):
 @pytest.mark.job
 def test_that_the_job_transformation_is_ordered_desc(stats_dao, dc_dao, marvel_dao):
     # assign
-    job = Top10VillainsByAppearancePerPublisherJob(
+    job = Top10HeroesByAppearancePerPublisherJob(
         _stats_dao=stats_dao,
         _dc_dao=dc_dao,
         _marvel_dao=marvel_dao
@@ -216,7 +216,7 @@ def test_that_the_job_transformation_is_ordered_desc(stats_dao, dc_dao, marvel_d
 @pytest.mark.job
 def test_that_the_job_transformation_not_duplicates(stats_dao, dc_dao, marvel_dao):
     # assign
-    job = Top10VillainsByAppearancePerPublisherJob(
+    job = Top10HeroesByAppearancePerPublisherJob(
         _stats_dao=stats_dao,
         _dc_dao=dc_dao,
         _marvel_dao=marvel_dao

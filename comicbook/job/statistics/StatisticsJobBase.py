@@ -63,13 +63,9 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
                     df_stats_tr.join(union_df,
                                      on=[SC.name],
                                      how="inner")
-
-                               .drop(SC.alignment)
             )
 
         return _
-
-
 
     @staticmethod
     def stats_transformation() -> Callable[[DataFrame], DataFrame]:
@@ -78,7 +74,8 @@ class StatisticsJobBase(CleanHeroNamesJobTransformation):
 
             return (
                 df_stats.select(SC.name,
-                                SC.alignment)
+                                SC.alignment,
+                                SC.publisher)
                         .transform(this.clean_column_name_transformation(col_name=SC.name))
                         .withColumn(SC.alignment, lower(col(SC.alignment)))
                         .dropDuplicates()
