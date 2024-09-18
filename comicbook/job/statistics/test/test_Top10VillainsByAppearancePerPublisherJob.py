@@ -2,6 +2,9 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, lower, lit
 
+from comicbook.common.conventions.dataset.marvel.MarvelConst import MarvelConst as MC
+from comicbook.common.conventions.dataset.stats.AlignmentTypesConst import AlignmentTypesConst
+from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
 from comicbook.common.mocks.test_utils import abs_path
 from comicbook.conf.dao.dc.DcDAOConfig import DcDAOConfig
 from comicbook.conf.dao.heroability.HeroAbilityDAOConfig import HeroAbilityDAOConfig
@@ -12,10 +15,6 @@ from comicbook.dao.heroabilities.HeroAbilityDAO import HeroAbilityDAO
 from comicbook.dao.marvel.MarvelDAO import MarvelDAO
 from comicbook.dao.stats.StatsDAO import StatsDAO
 from comicbook.job.statistics.Top10VillainsByAppearancePerPublisherJob import Top10VillainsByAppearancePerPublisherJob
-from comicbook.common.conventions.dataset.dc.DcConst import DcConst as DC
-from comicbook.common.conventions.dataset.marvel.MarvelConst import MarvelConst as MC
-from comicbook.common.conventions.dataset.stats.AlignmentTypesConst import AlignmentTypesConst
-from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
 
 
 @pytest.fixture(scope="module")
