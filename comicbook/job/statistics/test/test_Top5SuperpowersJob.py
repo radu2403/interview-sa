@@ -107,7 +107,6 @@ def hero_ability_dao(ha_config: HeroAbilityDAOConfig) -> HeroAbilityDAO:
 def test_that_the_job_is_created_with_success_with_parameters(stats_dao, hero_ability_dao):
     # act
     Top5SuperpowersJob(
-        _stats_dao=stats_dao,
         _heroes_ability_dao=hero_ability_dao
     )
 

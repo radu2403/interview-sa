@@ -41,7 +41,7 @@ class Top5SuperpowersJob(CleanHeroNamesJobTransformation):
                          .groupBy(HC.superpowers)
                          .agg(count(HC.superpowers).alias("count"))
                          .orderBy(col("count").desc())
-                         .limit(10)
+                         .limit(5)
             )
 
         return _
