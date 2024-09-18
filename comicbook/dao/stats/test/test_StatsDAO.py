@@ -1,8 +1,6 @@
-from unittest import mock
-from unittest.mock import MagicMock
 import pytest
+from pyspark.sql import SparkSession
 
-from pyspark.sql import SparkSession, DataFrame
 from comicbook.common.mocks.test_utils import abs_path
 from comicbook.conf.dao.stats.StatsDAOConfig import StatsDAOConfig
 from comicbook.dao.stats.StatsDAO import StatsDAO

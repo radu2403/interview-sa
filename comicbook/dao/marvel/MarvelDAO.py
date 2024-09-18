@@ -3,7 +3,6 @@ from dataclasses import dataclass, field
 from pyspark.sql import DataFrame
 
 from comicbook.conf.dao.marvel.MarvelDAOConfig import MarvelDAOConfig
-from comicbook.conf.dao.stats.StatsDAOConfig import StatsDAOConfig
 from comicbook.dao.common.DAOABCBase import DaoABC
 from comicbook.dao.common.read.ReadCsvDAOABC import ReadCsvDAOABC
 
