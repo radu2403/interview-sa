@@ -2,7 +2,7 @@ from dataclasses import field, dataclass
 from typing import Callable
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, explode, count
+from pyspark.sql.functions import col, explode, count, lit
 
 from comicbook.common.conventions.dataset.heroability.HeroAbilityConst import HeroAbilityConst as HC
 from comicbook.common.conventions.dataset.stats.StatsConst import StatsConst as SC
@@ -14,7 +14,7 @@ from comicbook.transformations.CleanHeroNamesJobTransformation import CleanHeroN
 
 
 @dataclass(frozen=True)
-class Top5SuperpowersJob(CleanHeroNamesJobTransformation):
+class Top10OverallScoreJob(CleanHeroNamesJobTransformation):
     _heroes_ability_dao: HeroAbilityDAO = field(repr=False, default=None)
 
     def __post_init__(self):
@@ -35,26 +35,23 @@ class Top5SuperpowersJob(CleanHeroNamesJobTransformation):
 
     def transformation(self) -> Callable[[DataFrame], DataFrame]:
         def _(df_ha: DataFrame) -> DataFrame:
-            this = Top5SuperpowersJob
             return (
-                    df_ha.transform(this.ha_transformation())
-                         .withColumn(HC.superpowers, explode(HC.superpowers))
-                         .groupBy(HC.superpowers)
-                         .agg(count(HC.superpowers).alias("count"))
-                         .orderBy(col("count").desc())
-                         .limit(5)
+                    df_ha.transform(self.ha_transformation())
+                         .orderBy(col(HC.overall_score).desc())
+                         .limit(10)
             )
 
         return _
 
-    @staticmethod
-    def ha_transformation() -> Callable[[DataFrame], DataFrame]:
+    def ha_transformation(self) -> Callable[[DataFrame], DataFrame]:
         def _(df_stats: DataFrame) -> DataFrame:
-            this = Top5SuperpowersJob
             return (
                 df_stats.select(HC.name,
-                                HC.superpowers)
-                        .transform(this.clean_column_name_transformation(col_name=SC.name))
+                                HC.overall_score)
+                        .transform(self.clean_column_name_transformation(col_name=SC.name))
+                        .dropna()
+                        .where(col(HC.overall_score) != lit("∞"))         # remove infinite - consider it as an error
+                        .withColumn(HC.overall_score, col(HC.overall_score).cast("int"))
                         .dropDuplicates()
 
             )
@@ -63,17 +60,17 @@ class Top5SuperpowersJob(CleanHeroNamesJobTransformation):
 
     @classmethod
     def get_instance(cls):
-        return Top5SuperpowersJob()
+        return Top10OverallScoreJob()
 
     @staticmethod
     def auto_run():
-        Top5SuperpowersJob.get_instance().execute()
+        Top10OverallScoreJob.get_instance().execute()
         print("[CLASS] - FINISHED!")
 
 
 def main():
     print(f"[MAIN] - Started main...")
-    Top5SuperpowersJob.auto_run()
+    Top10OverallScoreJob.auto_run()
 
 
 if __name__ == "__main__":
