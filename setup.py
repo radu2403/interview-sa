@@ -32,6 +32,14 @@ setuptools.setup(
     python_requires=">=3.6, <4",
     entry_points={
         'console_scripts': [
+            'job.statistics.Bottom10HeroesByAppearancePerPublisherJob = comicbook.job.statistics.Bottom10HeroesByAppearancePerPublisherJob:main',
+            'job.statistics.Bottom10VillainsByAppearancePerPublisherJob = comicbook.job.statistics.Bottom10VillainsByAppearancePerPublisherJob:main',
+            'job.statistics.HeroesAndVillainWithTop5SuperpowersJob = comicbook.job.statistics.HeroesAndVillainWithTop5SuperpowersJob:main',
+            'job.statistics.Top5SuperpowersJob = comicbook.job.statistics.Top5SuperpowersJob:main',
+            'job.statistics.Top10HeroesByAppearancePerPublisherJob = comicbook.job.statistics.Top10HeroesByAppearancePerPublisherJob:main',
+            'job.statistics.Top10OverallScoreJob = comicbook.job.statistics.Top10OverallScoreJob:main',
+            'job.statistics.Top10SuperpowersPerPublisherJob = comicbook.job.statistics.Top10SuperpowersPerPublisherJob:main',
+            'job.statistics.Top10VillainsByAppearancePerPublisherJob = comicbook.job.statistics.Top10VillainsByAppearancePerPublisherJob:main',
 
         ]
     }
